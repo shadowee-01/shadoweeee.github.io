@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>박종호 - 포트폴리오</title>
+    <style>
+        /* [1. 기본 설정 및 초기화] */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.6; color: #333; background-color: #f9f9f9; }
+        html { scroll-behavior: smooth; } /* 부드러운 스크롤 이동 */
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+
+        /* [2. 공통 레이아웃 & 색상] */
+        .container { max-width: 1000px; margin: 0 auto; padding: 80px 20px; }
+        .section-title { font-size: 2rem; margin-bottom: 40px; text-align: center; color: #1a202c; font-weight: 800; }
+        .highlight { color: #3182ce; } /* 메인 포인트 컬러 (신뢰감 있는 블루) */
+
+        /* [3. 네비게이션 바] */
+        nav { position: fixed; top: 0; width: 100%; background: rgba(255, 255, 255, 0.95); box-shadow: 0 2px 4px rgba(0,0,0,0.1); z-index: 100; }
+        .nav-container { display: flex; justify-content: space-between; align-items: center; max-width: 1000px; margin: 0 auto; padding: 15px 20px; }
+        .nav-links { display: flex; gap: 20px; font-weight: 600; }
+        .nav-links a:hover { color: #3182ce; }
+
+        /* [4. Hero Section (첫인상)] */
+        #hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; background-color: #ebf8ff; padding: 20px; }
+        #hero h1 { font-size: 3rem; margin-bottom: 20px; font-weight: 800; line-height: 1.3; }
+        #hero p { font-size: 1.2rem; color: #4a5568; margin-bottom: 30px; }
+        .btn-primary { padding: 15px 30px; background-color: #3182ce; color: white; border-radius: 8px; font-weight: bold; transition: 0.3s; }
+        .btn-primary:hover { background-color: #2b6cb0; transform: translateY(-2px); }
+
+        /* [5. About Me (철학과 성향)] */
+        #about { background: white; }
+        .about-content { font-size: 1.1rem; color: #4a5568; text-align: center; max-width: 700px; margin: 0 auto; }
+        .tags { margin-top: 20px; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+        .tag { background: #e2e8f0; padding: 5px 15px; border-radius: 20px; font-size: 0.9rem; font-weight: bold; color: #4a5568; }
+
+        /* [6. Skills (하드스킬)] */
+        .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+        .skill-category { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .skill-category h3 { margin-bottom: 15px; color: #2d3748; border-bottom: 2px solid #edf2f7; padding-bottom: 10px; }
+        .skill-list li { margin-bottom: 10px; font-size: 0.95rem; color: #4a5568; font-weight: 600; }
+
+        /* [7. Projects (문제 해결 과정 증명)] */
+        #projects { background: white; }
+        .project-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 30px; margin-bottom: 30px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .project-header { margin-bottom: 20px; }
+        .project-header h3 { font-size: 1.5rem; color: #1a202c; }
+        .project-header p { color: #718096; font-size: 0.9rem; }
+        .troubleshooting { background: #fffaf0; padding: 15px; border-left: 4px solid #dd6b20; border-radius: 4px; margin: 20px 0; }
+        .troubleshooting h4 { color: #dd6b20; margin-bottom: 10px; }
+        .fact-list { margin-left: 20px; margin-bottom: 20px; }
+        .fact-list li { margin-bottom: 5px; list-style-type: square; }
+
+        /* [8. Footer (행동 유도 및 연락처)] */
+        footer { background: #1a202c; color: white; text-align: center; padding: 60px 20px; }
+        footer h2 { margin-bottom: 20px; }
+        footer p { margin-bottom: 30px; color: #a0aec0; }
+
+        /* [모바일 반응형 처리] */
+        @media (max-width: 768px) {
+            #hero h1 { font-size: 2rem; }
+            .nav-links { display: none; } /* 모바일에서는 심플하게 메뉴 숨김 처리 */
+            .container { padding: 50px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 내비게이션 -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo"><strong>Portfolio.</strong></div>
+            <div class="nav-links">
+                <a href="#about">About</a>
+                <a href="#skills">Skills</a>
+                <a href="#projects">Projects</a>
+                <a href="#contact">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 1. Hero Section (첫인상) -->
+    <header id="hero">
+        <h1>논리와 구현력을 <span class="highlight">AI를 활용하여 만드는</span><br>게임 개발자, 박종호</h1>
+        <p>C#/Unity와 AI를 활용해 시스템의 '효율' 고민하고, 몰입감있는 전략적 경험을 설계합니다.</p>
+        <a href="#projects" class="btn-primary">핵심 프로젝트 확인하기 ↓</a>
+    </header>
+
+    <!-- 2. About Me (기둥 1: 철학) -->
+    <section id="about" class="container">
+        <h2 class="section-title">About Me</h2>
+        <div class="about-content">
+            <p>단순히 주어진 코드를 타이핑하는 것을 넘어, 게임 시스템이 왜 이렇게 설계되어야 하는지 수학적·논리적 근거를 바탕으로 집요하게 파고들고 효율을 찾아냅니다.<br><br>
+            카페 운영 및 인터넷 방송 등 다양한 경험을 통해 다져진 커뮤니케이션 능력과 강한 실행력을 바탕으로, 팀의 기획을 현실로 구현하는 'Develop 이론가'의 자세로 임합니다.</p>[cite: 1]
+            <div class="tags">
+                <span class="tag">#AI_활용</span>
+                <span class="tag">#문제해결사</span>[cite: 1]
+                <span class="tag">#과정을견디는힘</span>[cite: 1]
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. Skills (기둥 2: 하드스킬 - 상중하 표현 제거 및 리스트업) -->
+    <section id="skills" class="container">
+        <h2 class="section-title">Technical Skills</h2>
+        <div class="skills-grid">
+            <div class="skill-category">
+                <h3>🎮 Game & Graphics</h3>
+                <ul class="skill-list">
+                    <li>• Unity</li>
+                    <li>• C#</li>
+                    <li>• C</li>
+                    <li>• 3D Max</li>
+                </ul>
+            </div>
+            <div class="skill-category">
+                <h3>💻 Web & Development</h3>
+                <ul class="skill-list">
+                    <li>• 프론트앤드</li>
+                    <li>• 백앤드</li>
+                    <li>• Java</li>
+                    <li>• JavaScript</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. Projects (기둥 3: 과정의 증명) -->
+    <section id="projects" class="container">
+        <h2 class="section-title">Troubleshooting & Projects</h2>
+        
+        <!-- 프로젝트 카드 -->
+        <div class="project-card">
+            <div class="project-header">
+                <h3>Maritime Fight Tactics: 3D 해상 전략 게임</h3>
+                <p>개인 프로젝트 | 기획 및 개발 담당</p>
+            </div>
+            
+            <p><strong>🎯 핵심 목표 (S.M.A.R.T Goal):</strong> 항공모함, 구축함, 잠수함 등 다양한 함선 클래스의 고유 스킬과 상성 체계를 연동하여, 연산 부하를 최소화한 안정적인 전투 시스템 구축하기. 및 플레이어에게 직관적인 UI 만들기</p>
+            
+            <div class="troubleshooting">
+                <h4>🔥 문제 해결 과정 (Troubleshooting)</h4>
+                <p><strong>[문제 상황 (Problem)]</strong> 게임 UI의 복잡성으로 인해 유저의 직관적인 조작이 어렵고, 정보 전달 효율이 떨어져 유저 경험이 저하되는 문제가 발생함.<br><br>
+                <strong>[해결 과정 (How-To)]</strong> 다양한 게임의 UI 사례를 벤치마킹하여 최적의 레이아웃을 분석하고, AI를 적극 활용하여 유저의 행동 패턴에 최적화된 UI 구조를 설계함.<br><br>
+                <strong>[If-Then 극복]</strong> UI 디자인 방향성에 대해 팀원 간 의견 충돌이 발생할 경우(If), 감정적 논쟁 대신 AI가 분석한 데이터와 벤치마킹 사례를 근거로 의사결정하는 룰을 도입(Then)하여 효율적인 합의점을 도출함.</p>
+            </div>
+            
+            <p><strong>📈 성과 및 기능 (Fact):</strong></p>
+            <ul class="fact-list">
+                <li>AI를 활용한 Unity UI 대시보드 완벽 이관 및 구현, 효율성 극대화</li>
+            </ul>
+            <a href="#" class="highlight">👉 상세 개발 일지 보러가기 ↗</a>
+        </div>
+    </section>
+
+    <!-- 5. Contact (행동 유도) -->
+    <footer id="contact">
+        <h2>"저와 함께 효율적인 가치를 빚어갈 준비가 되셨나요?"</h2>
+        <p>현재 새로운 기회(신입/인턴)를 찾고 있습니다. 커피챗도 언제든 환영합니다.</p>[cite: 1]
+        <a href="mailto:your-email@gmail.com" class="btn-primary">이메일 보내기 (클릭)</a>[cite: 1]
+        <br><br>
+        <p style="font-size: 0.9rem; margin-top:20px;">Github | LinkedIn | Blog</p>[cite: 1]
+    </footer>
+
+</body>
+</html>
