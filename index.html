@@ -3,166 +3,249 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>박종호 - 포트폴리오</title>
+    <title>박종호 - 게임 개발자 커리어 포트폴리오</title>
     <style>
-        /* [1. 기본 설정 및 초기화] */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.6; color: #333; background-color: #f9f9f9; }
-        html { scroll-behavior: smooth; } /* 부드러운 스크롤 이동 */
+        /* [1. 공통 및 하이엔드 다크 UI 설정] */
+        @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+        :root { 
+            --bg: #0f172a; 
+            --surface: #1e293b; 
+            --primary: #3b82f6; 
+            --gradient: linear-gradient(90deg, #60a5fa, #c084fc);
+            --text: #f8fafc; 
+            --text-muted: #94a3b8; 
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Pretendard', sans-serif; }
+        body { background-color: var(--bg); color: var(--text); overflow-x: hidden; line-height: 1.6; }
+        html { scroll-behavior: smooth; }
         a { text-decoration: none; color: inherit; }
         ul { list-style: none; }
 
-        /* [2. 공통 레이아웃 & 색상] */
-        .container { max-width: 1000px; margin: 0 auto; padding: 80px 20px; }
-        .section-title { font-size: 2rem; margin-bottom: 40px; text-align: center; color: #1a202c; font-weight: 800; }
-        .highlight { color: #3182ce; } /* 메인 포인트 컬러 (신뢰감 있는 블루) */
+        /* [2. 글래스모피즘 네비게이션] */
+        nav { position: fixed; width: 100%; top: 0; z-index: 1000; padding: 20px 0; transition: 0.4s; }
+        nav.scrolled { background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255,255,255,0.05); padding: 15px 0; }
+        .nav-inner { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0 20px; }
+        .logo { font-weight: 900; font-size: 1.5rem; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .nav-links { display: flex; gap: 30px; font-weight: 600; font-size: 0.95rem; }
+        .nav-links a { transition: color 0.3s; }
+        .nav-links a:hover { color: #60a5fa; }
 
-        /* [3. 네비게이션 바] */
-        nav { position: fixed; top: 0; width: 100%; background: rgba(255, 255, 255, 0.95); box-shadow: 0 2px 4px rgba(0,0,0,0.1); z-index: 100; }
-        .nav-container { display: flex; justify-content: space-between; align-items: center; max-width: 1000px; margin: 0 auto; padding: 15px 20px; }
-        .nav-links { display: flex; gap: 20px; font-weight: 600; }
-        .nav-links a:hover { color: #3182ce; }
+        /* [스크롤 등장 애니메이션 공통 클래스] */
+        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+        .sec-title { font-size: 2.5rem; font-weight: 800; margin-bottom: 50px; text-align: center; color: #fff; }
 
-        /* [4. Hero Section (첫인상)] */
-        #hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; background-color: #ebf8ff; padding: 20px; }
-        #hero h1 { font-size: 3rem; margin-bottom: 20px; font-weight: 800; line-height: 1.3; }
-        #hero p { font-size: 1.2rem; color: #4a5568; margin-bottom: 30px; }
-        .btn-primary { padding: 15px 30px; background-color: #3182ce; color: white; border-radius: 8px; font-weight: bold; transition: 0.3s; }
-        .btn-primary:hover { background-color: #2b6cb0; transform: translateY(-2px); }
+        section { padding: 120px 20px; max-width: 1100px; margin: 0 auto; }
 
-        /* [5. About Me (철학과 성향)] */
-        #about { background: white; }
-        .about-content { font-size: 1.1rem; color: #4a5568; text-align: center; max-width: 700px; margin: 0 auto; }
-        .tags { margin-top: 20px; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
-        .tag { background: #e2e8f0; padding: 5px 15px; border-radius: 20px; font-size: 0.9rem; font-weight: bold; color: #4a5568; }
+        /* [Sec 1. Hero] */
+        #hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; position: relative; padding: 0 20px;}
+        .glow { position: absolute; width: 600px; height: 600px; background: radial-gradient(circle, rgba(59,130,246,0.15) 0%, rgba(0,0,0,0) 70%); top: 50%; left: 50%; transform: translate(-50%, -50%); animation: pulse 4s infinite alternate; z-index: -1; }
+        @keyframes pulse { 0% { transform: translate(-50%, -50%) scale(1); } 100% { transform: translate(-50%, -50%) scale(1.2); } }
+        #hero h1 { font-size: 3.5rem; line-height: 1.3; margin-bottom: 20px; font-weight: 900; letter-spacing: -0.02em; }
+        .gradient-text { background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero-sub { color: var(--text-muted); font-size: 1.2rem; max-width: 750px; margin-bottom: 40px; word-break: keep-all; }
+        .btn { padding: 15px 35px; background: var(--primary); color: white; border-radius: 30px; font-weight: bold; transition: all 0.3s; display: inline-block; }
+        .btn:hover { background: #2563eb; transform: translateY(-3px); box-shadow: 0 10px 20px rgba(59,130,246,0.4); }
 
-        /* [6. Skills (하드스킬)] */
-        .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
-        .skill-category { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-        .skill-category h3 { margin-bottom: 15px; color: #2d3748; border-bottom: 2px solid #edf2f7; padding-bottom: 10px; }
-        .skill-list li { margin-bottom: 10px; font-size: 0.95rem; color: #4a5568; font-weight: 600; }
+        /* [Sec 2. About Me] */
+        .about-grid { display: grid; grid-template-columns: 1fr; gap: 30px; max-width: 800px; margin: 0 auto; text-align: center; }
+        .about-text p { color: var(--text-muted); font-size: 1.15rem; margin-bottom: 20px; word-break: keep-all; }
+        .about-text strong { color: #fff; font-weight: 700; background: linear-gradient(180deg, rgba(255,255,255,0) 70%, rgba(59,130,246,0.3) 30%); }
+        .about-tags { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; justify-content: center; }
+        .tag { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 8px 15px; border-radius: 20px; font-size: 0.9rem; color: #cbd5e1; }
 
-        /* [7. Projects (문제 해결 과정 증명)] */
-        #projects { background: white; }
-        .project-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 30px; margin-bottom: 30px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-        .project-header { margin-bottom: 20px; }
-        .project-header h3 { font-size: 1.5rem; color: #1a202c; }
-        .project-header p { color: #718096; font-size: 0.9rem; }
-        .troubleshooting { background: #fffaf0; padding: 15px; border-left: 4px solid #dd6b20; border-radius: 4px; margin: 20px 0; }
-        .troubleshooting h4 { color: #dd6b20; margin-bottom: 10px; }
-        .fact-list { margin-left: 20px; margin-bottom: 20px; }
-        .fact-list li { margin-bottom: 5px; list-style-type: square; }
+        /* [Sec 3. Skills & Tools - 배지 그리드 레이아웃] */
+        .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; }
+        .skill-card { background: var(--surface); border: 1px solid rgba(255,255,255,0.05); border-radius: 16px; padding: 30px; transition: 0.3s; }
+        .skill-card:hover { border-color: #60a5fa; transform: translateY(-5px); }
+        .skill-card h3 { font-size: 1.3rem; margin-bottom: 20px; color: #fff; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; }
+        .skill-list { display: flex; flex-wrap: wrap; gap: 10px; }
+        .skill-list img { height: 35px; border-radius: 4px; transition: transform 0.2s; }
+        .skill-list img:hover { transform: scale(1.05); }
 
-        /* [8. Footer (행동 유도 및 연락처)] */
-        footer { background: #1a202c; color: white; text-align: center; padding: 60px 20px; }
-        footer h2 { margin-bottom: 20px; }
-        footer p { margin-bottom: 30px; color: #a0aec0; }
+        /* [Sec 4. Projects] */
+        .projects-container { max-width: 900px; margin: 0 auto; }
+        .card { background: var(--surface); border: 1px solid rgba(255,255,255,0.05); border-radius: 16px; padding: 40px; transition: 0.4s; position: relative; overflow: hidden; }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.4); border-color: #60a5fa; }
+        .card-tag { display: inline-block; color: #60a5fa; background: rgba(59,130,246,0.1); padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; margin-bottom: 15px; }
+        .card h3 { font-size: 1.8rem; margin-bottom: 15px; color: #fff; }
+        .card .goal-text { color: #e2e8f0; font-size: 1.05rem; margin-bottom: 25px; word-break: keep-all; }
+        
+        /* 트러블슈팅 전용 하이라이트 박스 */
+        .troubleshooting-box { background: rgba(221, 107, 32, 0.08); border-left: 4px solid #dd6b20; border-radius: 8px; padding: 25px; margin: 25px 0; text-align: left; }
+        .troubleshooting-box h4 { color: #ff9a55; font-size: 1.15rem; margin-bottom: 15px; font-weight: 700; }
+        .troubleshooting-box p { color: #cbd5e1; font-size: 0.95rem; margin-bottom: 12px; line-height: 1.7; word-break: keep-all; }
+        .troubleshooting-box p:last-child { margin-bottom: 0; }
 
-        /* [모바일 반응형 처리] */
+        .fact-title { color: #fff; font-weight: bold; margin-bottom: 10px; font-size: 1.05rem; }
+        .fact-list { margin-left: 20px; margin-bottom: 30px; color: var(--text-muted); }
+        .fact-list li { list-style-type: square; margin-bottom: 5px; }
+        .card-link { font-weight: bold; color: #fff; display: flex; align-items: center; gap: 5px; transition: 0.3s; }
+        .card-link:hover { color: #60a5fa; }
+
+        /* [Sec 5. Experience & Education (Timeline)] */
+        .timeline { position: relative; max-width: 800px; margin: 0 auto; padding-left: 30px; border-left: 2px solid rgba(255,255,255,0.1); }
+        .timeline-item { position: relative; margin-bottom: 40px; }
+        .timeline-item::before { content: ''; position: absolute; left: -37px; top: 0; width: 12px; height: 12px; border-radius: 50%; background: #60a5fa; border: 3px solid var(--bg); }
+        .time-date { color: #60a5fa; font-weight: 700; font-size: 0.9rem; margin-bottom: 5px; }
+        .timeline-item h3 { color: #fff; margin-bottom: 10px; }
+        .timeline-item p { color: var(--text-muted); font-size: 0.95rem; word-break: keep-all; }
+
+        /* [Sec 6. Footer & Contact] */
+        #contact { text-align: center; padding: 120px 20px; background: rgba(255,255,255,0.02); border-top: 1px solid rgba(255,255,255,0.05); }
+        #contact h2 { font-size: 2.5rem; font-weight: 800; margin-bottom: 20px; color: #fff; word-break: keep-all; }
+        #contact p { color: var(--text-muted); margin-bottom: 40px; font-size: 1.1rem; word-break: keep-all; }
+        .contact-links { display: flex; justify-content: center; gap: 20px; }
+        .btn-outline { padding: 15px 35px; border: 1px solid #60a5fa; color: #60a5fa; border-radius: 30px; font-weight: bold; transition: 0.3s; }
+        .btn-outline:hover { background: rgba(96,165,250,0.1); }
+
+        /* 모바일 대응 */
         @media (max-width: 768px) {
-            #hero h1 { font-size: 2rem; }
-            .nav-links { display: none; } /* 모바일에서는 심플하게 메뉴 숨김 처리 */
-            .container { padding: 50px 20px; }
+            #hero h1 { font-size: 2.2rem; }
+            .nav-links { display: none; }
+            .skills-grid { grid-template-columns: 1fr; }
+            .card { padding: 25px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- 내비게이션 -->
-    <nav>
-        <div class="nav-container">
-            <div class="logo"><strong>Portfolio.</strong></div>
+    <nav id="nav">
+        <div class="nav-inner">
+            <div class="logo">박종호.</div>
             <div class="nav-links">
                 <a href="#about">About</a>
                 <a href="#skills">Skills</a>
                 <a href="#projects">Projects</a>
-                <a href="#contact">Contact</a>
+                <a href="#experience">Experience</a>
             </div>
         </div>
     </nav>
 
-    <!-- 1. Hero Section (첫인상) -->
-    <header id="hero">
-        <h1>논리와 구현력을 <span class="highlight">AI를 활용하여 만드는</span><br>게임 개발자, 박종호</h1>
-        <p>C#/Unity와 AI를 활용해 시스템의 '효율' 고민하고, 몰입감있는 전략적 경험을 설계합니다.</p>
-        <a href="#projects" class="btn-primary">핵심 프로젝트 확인하기 ↓</a>
-    </header>
+    <section id="hero">
+        <div class="glow"></div>
+        <div class="reveal">
+            <h1>논리와 구현력을 <br><span class="gradient-text">AI를 활용하여 만드는</span> 게임 개발자</h1>
+            <p class="hero-sub">C#/Unity와 AI를 활용해 시스템의 '효율'을 고민하고, 몰입감있는 전략적 경험을 설계합니다.</p>
+            <a href="#projects" class="btn">프로젝트 확인하기 ↓</a>
+        </div>
+    </section>
 
-    <!-- 2. About Me (기둥 1: 철학) -->
-    <section id="about" class="container">
-        <h2 class="section-title">About Me</h2>
-        <div class="about-content">
-            <p>단순히 주어진 코드를 타이핑하는 것을 넘어, 게임 시스템이 왜 이렇게 설계되어야 하는지 수학적·논리적 근거를 바탕으로 집요하게 파고들고 효율을 찾아냅니다.<br><br>
-            카페 운영 및 인터넷 방송 등 다양한 경험을 통해 다져진 커뮤니케이션 능력과 강한 실행력을 바탕으로, 팀의 기획을 현실로 구현하는 'Develop 이론가'의 자세로 임합니다.</p>[cite: 1]
-            <div class="tags">
+    <section id="about" class="reveal">
+        <h2 class="sec-title">About Me.</h2>
+        <div class="about-grid">
+            <div class="about-text">
+                <p>단순히 주어진 코드를 타이핑하는 것을 넘어, 게임 시스템이 <strong>왜</strong> 이렇게 설계되어야 하는지 <strong>수학적·논리적 근거</strong>를 바탕으로 집요하게 파고들고 <strong>효율</strong>을 찾아냅니다.</p>
+                <p><strong>카페 운영 및 인터넷 방송</strong> 등 다양한 경험을 통해 다져진 <strong>커뮤니케이션 능력과 강한 실행력</strong>을 바탕으로, 팀의 기획을 현실로 구현하는 <strong>'Develop 이론가'</strong>의 자세로 임합니다.</p>
+            </div>
+            <div class="about-tags">
                 <span class="tag">#AI_활용</span>
-                <span class="tag">#문제해결사</span>[cite: 1]
-                <span class="tag">#과정을견디는힘</span>[cite: 1]
+                <span class="tag">#문제해결사</span>
+                <span class="tag">#과정을견디는힘</span>
+                <span class="tag">#Develop이론가</span>
             </div>
         </div>
     </section>
 
-    <!-- 3. Skills (기둥 2: 하드스킬 - 상중하 표현 제거 및 리스트업) -->
-    <section id="skills" class="container">
-        <h2 class="section-title">Technical Skills</h2>
+    <section id="skills" class="reveal">
+        <h2 class="sec-title">Skills & Tools.</h2>
         <div class="skills-grid">
-            <div class="skill-category">
+            <div class="skill-card">
                 <h3>🎮 Game & Graphics</h3>
                 <ul class="skill-list">
-                    <li>• Unity</li>
-                    <li>• C#</li>
-                    <li>• C</li>
-                    <li>• 3D Max</li>
+                    <li><img src="https://img.shields.io/badge/Unity-000000?style=for-the-badge&logo=unity&logoColor=white" alt="Unity"></li>
+                    <li><img src="https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=c-sharp&logoColor=white" alt="C#"></li>
+                    <li><img src="https://img.shields.io/badge/C-A8B9CC?style=for-the-badge&logo=c&logoColor=white" alt="C"></li>
+                    <li><img src="https://img.shields.io/badge/3ds_Max-000000?style=for-the-badge&logo=autodesk&logoColor=white" alt="3ds Max"></li>
                 </ul>
             </div>
-            <div class="skill-category">
-                <h3>💻 Web & Development</h3>
+            <div class="skill-card">
+                <h3>💻 Web & Architecture</h3>
                 <ul class="skill-list">
-                    <li>• 프론트앤드</li>
-                    <li>• 백앤드</li>
-                    <li>• Java</li>
-                    <li>• JavaScript</li>
+                    <li><img src="https://img.shields.io/badge/Frontend-3b82f6?style=for-the-badge" alt="Frontend"></li>
+                    <li><img src="https://img.shields.io/badge/Backend-10b981?style=for-the-badge" alt="Backend"></li>
+                    <li><img src="https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white" alt="Java"></li>
+                    <li><img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" alt="JavaScript"></li>
                 </ul>
             </div>
         </div>
     </section>
 
-    <!-- 4. Projects (기둥 3: 과정의 증명) -->
-    <section id="projects" class="container">
-        <h2 class="section-title">Troubleshooting & Projects</h2>
-        
-        <!-- 프로젝트 카드 -->
-        <div class="project-card">
-            <div class="project-header">
-                <h3>Maritime Fight Tactics: 3D 해상 전략 게임</h3>
-                <p>개인 프로젝트 | 기획 및 개발 담당</p>
+    <section id="projects" class="reveal">
+        <h2 class="sec-title">Selected Work.</h2>
+        <div class="projects-container">
+            <div class="card">
+                <span class="card-tag">Unity 3D / Strategic Simulation</span>
+                <h3>Maritime Fight Tactics (해상 전략 게임)</h3>
+                <p class="goal-text"><strong>🎯 핵심 목표 (S.M.A.R.T Goal):</strong> 항공모함, 구축함, 잠수함 등 다양한 함선 클래스의 고유 스킬과 상성 체계를 연동하여, 연산 부하를 최소화한 안정적인 전투 시스템 구축하기 및 플레이어에게 직관적인 UI 만들기</p>
+                
+                <div class="troubleshooting-box">
+                    <h4>🔥 문제 해결 과정 (Troubleshooting)</h4>
+                    <p><strong>[문제 상황 (Problem)]</strong> 게임 UI의 복잡성으로 인해 유저의 직관적인 조작이 어렵고, 정보 전달 효율이 떨어져 유저 경험이 저하되는 문제가 발생함.</p>
+                    <p><strong>[해결 과정 (How-To)]</strong> 다양한 게임의 UI 사례를 벤치마킹하여 최적의 레이아웃을 분석하고, AI를 적극 활용하여 유저의 행동 패턴에 최적화된 UI 구조를 설계함.</p>
+                    <p><strong>[If-Then 극복]</strong> UI 디자인 방향성에 대해 팀원 간 의견 충돌이 발생할 경우(If), 감정적 논쟁 대신 AI가 분석한 데이터와 벤치마킹 사례를 근거로 의사결정하는 룰을 도입(Then)하여 효율적인 합의점을 도출함.</p>
+                </div>
+
+                <div class="fact-title">📈 성과 및 기능 (Fact)</div>
+                <ul class="fact-list">
+                    <li>AI를 활용한 Unity UI 대시보드 완벽 이관 및 구현, 효율성 극대화</li>
+                </ul>
+                
+                <a href="#" class="card-link">개발 일지 및 소스코드 보기 ➔</a>
             </div>
-            
-            <p><strong>🎯 핵심 목표 (S.M.A.R.T Goal):</strong> 항공모함, 구축함, 잠수함 등 다양한 함선 클래스의 고유 스킬과 상성 체계를 연동하여, 연산 부하를 최소화한 안정적인 전투 시스템 구축하기. 및 플레이어에게 직관적인 UI 만들기</p>
-            
-            <div class="troubleshooting">
-                <h4>🔥 문제 해결 과정 (Troubleshooting)</h4>
-                <p><strong>[문제 상황 (Problem)]</strong> 게임 UI의 복잡성으로 인해 유저의 직관적인 조작이 어렵고, 정보 전달 효율이 떨어져 유저 경험이 저하되는 문제가 발생함.<br><br>
-                <strong>[해결 과정 (How-To)]</strong> 다양한 게임의 UI 사례를 벤치마킹하여 최적의 레이아웃을 분석하고, AI를 적극 활용하여 유저의 행동 패턴에 최적화된 UI 구조를 설계함.<br><br>
-                <strong>[If-Then 극복]</strong> UI 디자인 방향성에 대해 팀원 간 의견 충돌이 발생할 경우(If), 감정적 논쟁 대신 AI가 분석한 데이터와 벤치마킹 사례를 근거로 의사결정하는 룰을 도입(Then)하여 효율적인 합의점을 도출함.</p>
-            </div>
-            
-            <p><strong>📈 성과 및 기능 (Fact):</strong></p>
-            <ul class="fact-list">
-                <li>AI를 활용한 사용자 친화적 Unity UI 대시보드 완벽 이관 및 구현, 효율성 극대화</li>
-            </ul>
-            <a href="#" class="highlight">👉 상세 개발 일지 보러가기 ↗</a>
         </div>
     </section>
 
-    <!-- 5. Contact (행동 유도) -->
-    <footer id="contact">
-        <h2>"새로운 도전과 협업의 기회를 찾고 있습니다."</h2>
-        <p>어제보다 더 성장한 오늘을 만드는 개발자입니다. 함께 고민할 팀을 찾습니다.</p>[cite: 1]
-        <a href="mailto:your-email@gmail.com" class="btn-primary">이메일 연락하기 (클릭)</a>[cite: 1]
-        <br><br>
-        <p style="font-size: 0.9rem; margin-top:20px;">Github | LinkedIn | Blog</p>[cite: 1]
+    <section id="experience" class="reveal">
+        <h2 class="sec-title">Experience & Edu.</h2>
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="time-date">2026.03 - 현재</div>
+                <h3>게임 고도화 프로젝트 및 컴퓨터 학업 정진</h3>
+                <p>C++, Python, Calculus(미적분학) 등 컴퓨터 과학 기술 기반을 공고히 하며, AI 도구를 생산성에 결합하는 고도화 프로세스 연구 중.</p>
+            </div>
+            <div class="timeline-item">
+                <div class="time-date">Career Milestone</div>
+                <h3>개인 인터넷 방송 진행 및 콘텐츠 크리에이터</h3>
+                <p>실시간으로 다수의 유저들과 소통하고 피드백을 수렴하며, 직관적인 정보 전달과 대중 지향적 커커뮤니케이션 감각 체득.</p>
+            </div>
+            <div class="timeline-item">
+                <div class="time-date">Career Milestone</div>
+                <h3>개인 카페 창업 및 비즈니스 운영</h3>
+                <p>공간 기획부터 예산 관리, 고객 경험 최적화까지 비즈니스의 전 과정을 직접 실행하며 강인한 주도성과 실행력 증명.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact" class="reveal">
+        <h2>"저와 함께 효율적인 가치를 빚어갈 준비가 되셨나요?"</h2>
+        <p>현재 새로운 기회(신입/인턴)를 찾고 있습니다. 커피챗도 언제든 환영합니다.</p>
+        <div class="contact-links">
+            <a href="mailto:your-email@gmail.com" class="btn">Email Me</a>
+            <a href="#" class="btn-outline">이력서 다운로드</a>
+        </div>
+        <div style="margin-top: 50px; color: #64748b; font-size: 0.9rem;">
+            © 2026 박종호 Portfolio. All rights reserved.<br>
+            GitHub | LinkedIn | Blog
+        </div>
     </footer>
 
+    <script>
+        // 1. 네비게이션 효과
+        window.addEventListener('scroll', () => {
+            document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        // 2. 스크롤 시 등장(Reveal) 애니메이션 
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active'); // 스르륵 위로 올라오며 등장
+                }
+            });
+        }, { threshold: 0.1 }); 
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    </script>
 </body>
 </html>
